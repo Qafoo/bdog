@@ -7,7 +7,9 @@
   "repository": {
     "url": ""
   },
-  "dependencies": {},
+  "dependencies": {
+    "coffee-script": "~1.2.0"
+  },
   "devDependencies": {},
   "optionalDependencies": {},
   "engines": {
