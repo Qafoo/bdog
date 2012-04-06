@@ -180,9 +180,6 @@ class SegmentStream extends Stream
             segment = new Buffer( length )
             @segmentBuffer_.copy segment, 0, start, end
             @segmentsQueue_.push segment
-            console.log(
-                ["start: ", start, ", end: ", end, ", length: ", length].join( "" )
-            )
 
         leftOverLength = @segmentLength_ - end + 1
         if leftOverLength == 0
