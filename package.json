@@ -1,0 +1,16 @@
+{
+  "author": "Jakob Westhoff <jakob@qafoo.com> (http://westhoffswelt.de)",
+  "name": "bdog",
+  "description": "A better browser cat (bcat) - Pipe content directly to view inside your browser",
+  "version": "0.0.0",
+  "private": true,
+  "repository": {
+    "url": ""
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
