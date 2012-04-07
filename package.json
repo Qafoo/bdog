@@ -8,7 +8,9 @@
     "url": ""
   },
   "dependencies": {
-    "coffee-script": "~1.2.0"
+    "coffee-script": "~1.2.0",
+    "express": "~2.5.9",
+    "faye": "~0.8.1"
   },
   "devDependencies": {},
   "optionalDependencies": {},
