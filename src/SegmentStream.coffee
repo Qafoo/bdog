@@ -20,7 +20,7 @@ class SegmentStream extends Stream
     # Create a new SegmentStream using the given SegmentStream.
     #
     # The supplied Segmenter is used to cut the received data into pieces
-    constructor: ( segmenter )->
+    constructor: ( @segmenter )->
         # Segmenter can be written to from a Reader as well as read from by the
         # Transmitter
         @readable = true
@@ -32,8 +32,6 @@ class SegmentStream extends Stream
 
         @isPaused_ = false
         @shouldBeDestroyed_ = false
-
-        @segmenter = segmenter
 
     # Pause the stream ceasing all emits of data.
     #
