@@ -110,7 +110,7 @@ class SegmentStream extends Stream
     # Optionally taking a string or a buffer to be written out, before ending
     # the Stream
     end: ( stringOrBuffer = null, encoding = "utf8" ) ->
-        if stringOrBuffer
+        if stringOrBuffer?
             @write( stringOrBuffer, encoding )
         @writable = false
         @emit 'end'
