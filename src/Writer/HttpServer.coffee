@@ -11,7 +11,7 @@ class HttpServerWriter
     # Construct a new HttpServerWriter, which may listen on any interface/host
     #
     # If no listening host is specified localhost only is assumed
-    constructor: ( host = 'localhost' ) ->
+    constructor: ( @browserRunner,  host = 'localhost' ) ->
         @segmentsQueue_ = []
         @subscribedFayeClients_ = 0
 
@@ -62,8 +62,10 @@ class HttpServerWriter
     # the correct page.
     onServerListening_: =>
         address = @expressApp_.address()
-        process.stderr.write "Server running at http://#{address.address}:#{address.port}/\n"
+        textualAddress = "http://#{address.address}:#{address.port}/"
+        process.stderr.write "Server running at #{textualAddress}\n"
         process.stderr.write "Press <CTRL-C> to quit.\n"
+        @browserRunner.open textualAddress
 
     # Callback fired as soon as a FayeClient subscribes to a channel
     onFayeClientSubscribed_: ( clientId, channel ) =>
