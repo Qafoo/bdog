@@ -1,9 +1,11 @@
 Stream = require( 'stream' )
 
-# Abstract interface definition for any segmenter implementation
+# Stream which uses an arbitrary segmenter implementation to segment given
+# input data for sending to the OutputStream
 #
-# A segmenter is supposed to read from an InputStream and emit data in
-# appropriate chunks based on the kind of data given.
+# The SegmentStream reads from an InputStream and emits data in appropriate
+# chunks, which will be determined by the given associated segmenter based on
+# the read data.
 #
 # For example a JSONStreamSegmenter could emit a chunk of data after every
 # completed JSON object. This allows the receiving client to visualize the
@@ -130,16 +132,16 @@ class SegmentStream extends Stream
     # All data stored before is lost, if it is not stored elsewhere
     clearSegmentBuffer_: ->
         delete @segmentBuffer_
-        @segmentBuffer_ = new Buffer( SegmentStream.BUFFER_ALLOCATION_MULTIPLE )
+        @segmentBuffer_ = new Buffer( @constructor.BUFFER_ALLOCATION_MULTIPLE )
         @segmentBuffer_.fill 0
         @segmentLength_ = 0
 
     # Grow the internal segment buffer by the given amount of iterations
     #
-    # One iteration is the size of SegmentStream.BUFFER_ALLOCATION_MULTIPLE. The
+    # One iteration is the size of @constructor.BUFFER_ALLOCATION_MULTIPLE. The
     # iteration count defaults to 1
     growSegmentBuffer_: ( iterations = 1 ) ->
-        growBy = iterations * SegmentStream.BUFFER_ALLOCATION_MULTIPLE
+        growBy = iterations * @constructor.BUFFER_ALLOCATION_MULTIPLE
         currentSize = @segmentBuffer_ .length
 
         newSegmentBuffer = new Buffer( currentSize + growBy )
@@ -155,7 +157,7 @@ class SegmentStream extends Stream
     appendToSegmentBuffer_: ( buffer ) ->
         if @segmentBuffer_.length <= buffer.length + @segmentLength_
             iterations = Math.ceil(
-                @buffer.length / SegmentStream.BUFFER_ALLOCATION_MULTIPLE
+                @buffer.length / @constructor.BUFFER_ALLOCATION_MULTIPLE
             )
             @growSegmentBuffer_ iterations
         buffer.copy @segmentBuffer_, @segmentLength_
