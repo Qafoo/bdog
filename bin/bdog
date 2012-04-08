@@ -1,0 +1,6 @@
+#!/bin/sh
+oldDir="`pwd`"
+cd "`dirname "$0"`"
+binDir="`pwd -P`"
+cd "$oldDir"
+"$binDir/../node_modules/.bin/coffee" "$binDir/bdog.coffee" "$*"
