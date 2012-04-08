@@ -155,7 +155,7 @@ class SegmentStream extends Stream
     appendToSegmentBuffer_: ( buffer ) ->
         if @segmentBuffer_.length <= buffer.length + @segmentLength_
             iterations = Math.ceil(
-                @buffer.length / @constructor.BUFFER_ALLOCATION_MULTIPLE
+                buffer.length / @constructor.BUFFER_ALLOCATION_MULTIPLE
             )
             @growSegmentBuffer_ iterations
         buffer.copy @segmentBuffer_, @segmentLength_
