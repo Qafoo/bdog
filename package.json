@@ -10,7 +10,8 @@
   "dependencies": {
     "coffee-script": "~1.2.0",
     "express": "~2.5.9",
-    "faye": "~0.8.1"
+    "faye": "~0.8.1",
+    "requirejs": "~1.0.7"
   },
   "devDependencies": {},
   "optionalDependencies": {},
