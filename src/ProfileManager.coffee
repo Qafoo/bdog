@@ -16,7 +16,7 @@ class ProfileManager
 
     # Construct a new ProfileManager, which may be utilized to locate, load and
     # access all different kinds of needed profile information.
-    construct: ->
+    constructor: ->
         @availableProfiles_ = null
         @availableSegmenters_ = null
         @availablesegmenters_ = null
