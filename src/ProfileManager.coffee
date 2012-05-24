@@ -3,7 +3,7 @@ fs = require 'fs'
 DefaultProfile = require './Profile/Default'
 
 # Managament facillity for different preconfigured profiles, which may
-# influence used Segmenters, BrowserRunners, and Views.
+# influence used Segmenters, segmenterRunners, and Views.
 class ProfileManager
     # Path to profiles used to scan during name lookup
     @profilePath = "#{__dirname}/Profile"
@@ -11,7 +11,7 @@ class ProfileManager
     # Path to segmetners used to scan during name lookup
     @segmenterPath = "#{__dirname}/Segmenter"
     
-    # Path to profiles used to scan during name lookup
+    # Path to browsers used to scan during name lookup
     @browserPath = "#{__dirname}/Browser"
 
     # Construct a new ProfileManager, which may be utilized to locate, load and
@@ -19,7 +19,7 @@ class ProfileManager
     construct: ->
         @availableProfiles_ = null
         @availableSegmenters_ = null
-        @availableBrowsers_ = null
+        @availablesegmenters_ = null
     
     # Try to locate a certain profile by its name.
     #
@@ -38,7 +38,7 @@ class ProfileManager
 
     # Try to locate a certain Segmenter by its name
     #
-    # If a browser with the given name exists within the `Segmenter` directory
+    # If a segmenter with the given name exists within the `Segmenter` directory
     # it will be returned. If no such `Segmenter` defintion could be located
     # `undefined` will be returned.
     locateSegmenterByName: ( segmenterName ) ->
@@ -72,7 +72,7 @@ class ProfileManager
     # The retrieval is synchronous at is is only called once during the startup
     # sequence.
     readAvailableProfiles_: ->
-        @availableProfiles_ = @readDirectoryObjects_ @::profilePath
+        @availableProfiles_ = @readDirectoryObjects_ @constructor.profilePath
 
     # Read all the available segmenter from the defined `segmenterPath` and
     # store them as `filename => Segmenter` association for later lookup.
@@ -80,15 +80,15 @@ class ProfileManager
     # The retrieval is synchronous at is is only called once during the startup
     # sequence.
     readAvailableSegmenters_: ->
-        @availableSegmenters_ = @readDirectoryObjects_ @::segmenterPath
+        @availableSegmenters_ = @readDirectoryObjects_ @constructor.segmenterPath
 
     # Read all the available browsers from the defined `browserPath` and store
-    # them as `filename => Browser` association for later lookup.
+    # them as `filename => browser` association for later lookup.
     #
     # The retrieval is synchronous at is is only called once during the startup
     # sequence.
     readAvailableBrowsers_: ->
-        @availableBrowsers_ = @readDirectoryObjects_ @::browserPath
+        @availableBrowsers_ = @readDirectoryObjects_ @constructor.browserPath
 
     # Read the contents of a given directory and isolate all coffee/js files in
     # it. Require them and return an easily accessible name => information
