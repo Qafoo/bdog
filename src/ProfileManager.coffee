@@ -107,3 +107,5 @@ class ProfileManager
                 filepath: "#{@path}/#{filename}"
                 object: require "#{path}/#{match[1]}"
         return foundObjects
+
+module.exports = ProfileManager
