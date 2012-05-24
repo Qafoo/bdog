@@ -1,0 +1,47 @@
+# Simple encapsulation of the usage information and their printing logic.
+class UsagePrinter
+    # Construct a new UsagePrinter taking the optmist parsed argv object as
+    # well as a ProfileManager instance as arguments.
+    #
+    # The provided information is needed to gather meaningful configuration
+    # options for the usage output.
+    constructor: ( @argv, @manager ) ->
+
+    # Output the usage information to the console.
+    perform: ->
+        console.log @getUsage()
+
+    # Create and return the usage information as a string
+    getUsage: ->
+        """
+        Bdog - A better browser cat
+        Usage: #{process.argv[0]} [[--profile|-p] <profile>] [[--segmenter|-s] <segmenter>] [[--browser|-b] <browser>]
+
+        Possible configuration options are:
+
+          --profile|-p <profile>
+            Specify a certain preconfigured display and proccessing profile. (Default: 'Default')
+            The following profiles are available:
+              
+              #{@manager.getAvailableProfiles().join( "\n      " )}
+
+
+          --segmenter|-s <segmenter>
+            Specify a certain segmenter to be used.
+            The following segmenters are available:
+
+              #{@manager.getAvailableSegmenters().join( "\n      " )}
+
+
+          --browser|-b <browser>
+            Specify a certain browser to be executed.
+            The following browsers are available:
+              
+              #{@manager.getAvailableBrowsers().join( "\n      " )}
+
+
+        All arguments are optional. The specified profile is used as a base on which
+        the provided segmenter as well as browser will be applied as an override.
+        """
+
+module.exports = UsagePrinter
