@@ -11,9 +11,12 @@ class HttpServerWriter
     # Construct a new HttpServerWriter, which may listen on any interface/host
     #
     # If no listening host is specified localhost only is assumed
-    constructor: ( @browserRunner,  host = 'localhost' ) ->
+    constructor: ( @browserRunner,  configuration ) ->
         @segmentsQueue_ = []
         @subscribedFayeClients_ = 0
+
+        # Assume localhost as server target if no special host is specified
+        host = configuration.host ?= "localhost"
 
         # Initialize the express application
         @expressApp_ = express.createServer()
