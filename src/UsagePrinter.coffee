@@ -8,9 +8,12 @@ class UsagePrinter
     constructor: ( @argv, @manager ) ->
 
     # Output the usage information to the console.
-    perform: ->
+    # 
+    # Optionally a message may be specified, with is appended to the output
+    perform: ( message = null )->
         console.log @getUsage()
-
+        console.log( "\n#{message}" ) if message?
+    
     # Create and return the usage information as a string
     getUsage: ->
         """
