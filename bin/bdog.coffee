@@ -43,6 +43,11 @@ if (
 
 stream = new SegmenterStream(
     new ConfiguredSegmenter()
+# Try to load the requested profile
+activeProfile = manager.locateProfileByName( argv.profile )
+if not activeProfile?
+    usagePrinter.perform "The given profile #{argv.profile} is invalid."
+    process.exit 2
 )
 
 output = new OutputStream(
