@@ -43,7 +43,7 @@ class ProfileManager
     # `undefined` will be returned.
     locateSegmenterByName: ( segmenterName ) ->
         @readAvailableSegmenters_() if not @availableSegmenters_?
-        return @availableBrowers_[segmenterName.toLowerCase()]?.object
+        return @availableSegmenters_[segmenterName.toLowerCase()]?.object
     
     # Retrieve a list of all available segmenters
     getAvailableSegmenters: ->
@@ -58,7 +58,7 @@ class ProfileManager
     # `undefined` will be returned.
     locateBrowserByName: ( browserName ) ->
         @readAvailableBrowsers_() if not @availableBrowsers_?
-        return @availableBrowers_[browserName.toLowerCase()]?.object
+        return @availableBrowsers_[browserName.toLowerCase()]?.object
     
     # Retrieve a list of all available browsers
     getAvailableBrowsers: ->
