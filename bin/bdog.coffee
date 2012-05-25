@@ -56,7 +56,8 @@ output = new OutputStream(
     new activeProfile.Writer(
         new BrowserRunner(
             activeProfile.browser
-        )
+        ),
+        activeProfile.configuration
     )
 )
 
