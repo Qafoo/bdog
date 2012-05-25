@@ -18,7 +18,7 @@ class UsagePrinter
     getUsage: ->
         """
         Bdog - A better browser cat
-        Usage: #{process.argv[0]} [[--profile|-p] <profile>] [[--segmenter|-s] <segmenter>] [[--browser|-b] <browser>]
+        Usage: #{process.argv[0]} [[--profile=|-p] <profile>] [[--segmenter=|-s] <segmenter>] [[--browser=|-b] <browser>]
 
         Possible configuration options are:
 
