@@ -1,5 +1,6 @@
 ProfileManager   = require "../src/ProfileManager"
 UsagePrinter     = require "../src/UsagePrinter"
+SegmentStream    = require "../src/SegmentStream"
 OutputStream     = require "../src/OutputStream"
 HttpServerWriter = require "../src/Writer/HttpServer"
 BrowserRunner    = require "../src/BrowserRunner"
@@ -41,21 +42,21 @@ if (
     usagePrinter.perform( "Error: Supplied options must be followed by a string." )
     process.exit( 2 )
 
-stream = new SegmenterStream(
-    new ConfiguredSegmenter()
 # Try to load the requested profile
 activeProfile = manager.locateProfileByName( argv.profile )
 if not activeProfile?
     usagePrinter.perform "The given profile #{argv.profile} is invalid."
     process.exit 2
+
+stream = new SegmentStream(
+    new activeProfile.Segmenter()
 )
 
 output = new OutputStream(
-    new HttpServerWriter(
+    new activeProfile.Writer(
         new BrowserRunner(
-            ConfiguredBrowser
-        ),
-        WriterConfiguration
+            activeProfile.browser
+        )
     )
 )
 
