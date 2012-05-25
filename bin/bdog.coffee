@@ -11,25 +11,35 @@ argv = Optimist.options(
     h:
         alias: "help"
     p:
-        alias: "profile"
-        default: "Default"
+        alias   : "profile"
+        default : "Default"
+        type    : "string"
     s:
-        alias: "segmenter"
+        alias : "segmenter"
+        type  : "string"
     b:
-        alias: "browser"
+        alias : "browser"
+        type  : "string"
 ).argv
 
-manager = new ProfileManager()
-
+# Instantiate needed processing handlers for profile and usage information
+manager      = new ProfileManager()
 usagePrinter = new UsagePrinter( argv, manager )
 
+# Print help text and exit if requested by -h|--help argument
 if argv.h?
     usagePrinter.perform()
     process.exit 1
 
-ConfiguredSegmenter = null
-ConfiguredBrowser = null
-WriterConfiguration = null
+# Ensure if options have been supplied they have been supplied as strings
+# Otherwise bail out
+if (
+    ( argv.profile? && typeof argv.profile isnt "string" ) ||
+    ( argv.segmenter? && typeof argv.segmenter isnt "string" ) ||
+    ( argv.browser? && typeof argv.browser isnt "string" )
+)
+    usagePrinter.perform( "Error: Supplied options must be followed by a string." )
+    process.exit( 2 )
 
 stream = new SegmenterStream(
     new ConfiguredSegmenter()
