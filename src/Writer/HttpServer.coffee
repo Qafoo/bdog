@@ -11,17 +11,21 @@ class HttpServerWriter
     # Construct a new HttpServerWriter, which may listen on any interface/host
     #
     # If no listening host is specified localhost only is assumed
-    constructor: ( @browserRunner,  configuration ) ->
+    constructor: ( @browserRunner,  @configuration ) ->
         @segmentsQueue_ = []
         @subscribedFayeClients_ = 0
 
         # Assume localhost as server target if no special host is specified
-        host = configuration.host ?= "localhost"
+        host = @configuration.host ?= "localhost"
 
         # Initialize the express application
         @expressApp_ = express.createServer()
         @expressApp_.configure =>
             @expressApp_.use express.static "#{__dirname}/HttpServer/public"
+
+        # Associate the configuration request with a callback that provides the
+        # configuration data.
+        @expressApp_.get '/configuration', @onConfigurationRequest_
 
         # Attach a faye pubsub interface to our express server
         @bayeux_ = new faye.NodeAdapter({
@@ -85,5 +89,11 @@ class HttpServerWriter
     onFayeClientUnsubscribed_: ( clientId, channel ) =>
         return unless channel is "/segment"
         @subscribedFayeClients_ -= 1
+
+    # Handle a request to the configuration data from the client (aka. browser
+    # side)
+    onConfigurationRequest_: ( request, response ) =>
+        response.contentType "application/json"
+        response.send @configuration
 
 module.exports = HttpServerWriter
