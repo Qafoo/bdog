@@ -29,5 +29,8 @@ DefaultProfile =
     # page to be loaded
     configuration:
         site: 'index.html'
+        views: [
+            'simple'
+        ]
 
 module.exports = DefaultProfile
