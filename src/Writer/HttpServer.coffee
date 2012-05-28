@@ -69,10 +69,10 @@ class HttpServerWriter
     # the correct page.
     onServerListening_: =>
         address = @expressApp_.address()
-        textualAddress = "http://#{address.address}:#{address.port}/"
-        process.stderr.write "Server running at #{textualAddress}\n"
+        textualAddress = "http://#{address.address}:#{address.port}"
+        process.stderr.write "Server running at #{textualAddress}/\n"
         process.stderr.write "Press <CTRL-C> to quit.\n"
-        @browserRunner.open textualAddress
+        @browserRunner.open "#{textualAddress}/#{@configuration.site}"
 
     # Callback fired as soon as a FayeClient subscribes to a channel
     onFayeClientSubscribed_: ( clientId, channel ) =>
