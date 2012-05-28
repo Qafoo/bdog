@@ -28,7 +28,7 @@ manager      = new ProfileManager()
 usagePrinter = new UsagePrinter( argv, manager )
 
 # Print help text and exit if requested by -h|--help argument
-if argv.h?
+if argv.help?
     usagePrinter.perform()
     process.exit 1
 
@@ -45,7 +45,7 @@ if (
 # Try to load the requested profile
 activeProfile = manager.locateProfileByName( argv.profile )
 if not activeProfile?
-    usagePrinter.perform "The given profile #{argv.profile} is invalid."
+    usagePrinter.perform "Error: The given profile #{argv.profile} is invalid."
     process.exit 2
 
 # If there are overwrites for browser or segmenter defined apply them ontop of
