@@ -48,6 +48,20 @@ if not activeProfile?
     usagePrinter.perform "The given profile #{argv.profile} is invalid."
     process.exit 2
 
+# If there are overwrites for browser or segmenter defined apply them ontop of
+# the profile
+if argv.segmenter?
+    activeProfile.Segmenter = manager.locateSegmenterByName argv.segmenter
+    if not activeProfile.Segmenter?
+        usagePrinter.perform "Error: The specified segmenter '#{argv.segmenter}' is invalid."
+        process.exit 3
+
+if argv.browser?
+    activeProfile.browser = manager.locateBrowserByName argv.browser
+    if not activeProfile.browser?
+        usagePrinter.perform "Error: The specified browser '#{argv.browser}' is invalid."
+        process.exit 3
+
 stream = new SegmentStream(
     new activeProfile.Segmenter()
 )
