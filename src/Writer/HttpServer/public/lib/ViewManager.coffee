@@ -1,14 +1,29 @@
 define ( require, module, exports ) ->
-    # Simple manager to load and retrieve Views.
+    Q = require "q"
+
+    # Simple manager to retrieve, load and initialize Views.
     class ViewManager
-        # Fetch all available views here statically, as dynamic requirement can
-        # be quite tricky.
-        @availableViews_ =
-            'simple': require 'cs!lib/View/Simple'
-            
-        # Locate a View by name.
+        # Initialize the given views using the given container
         #
-        # If the View can not be found undefined will be returned
-        locateViewByName: ( name ) ->
-            if @.constructor.availableViews_[name]?
-                return @.constructor.availableViews_[name]
+        # A promise will be returned, which provides an array of all view
+        # objects after their initialization is finished.
+        loadViews: ( viewNames ) ->
+            promises = for viewName in viewNames
+                @loadView viewName
+            return Q.all( promises )
+
+        # Load a view by name returning a promise, which will be resolved with
+        # the view object once it is ready
+        loadView: ( viewName ) ->
+            @requireWithPromise_ "cs!lib/View/#{viewName}"
+            
+        # Use requirejs to load a certain module, but instead of providing
+        # a callback after it has been loaded return a promise, which is
+        # resolved once the data has arrived.
+        requireWithPromise_: ( name ) ->
+            deferred = Q.defer()
+            
+            requirejs [name], ( object ) ->
+                deferred.resolve( object )
+            return deferred.promise
+
