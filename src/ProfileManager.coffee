@@ -5,21 +5,31 @@ DefaultProfile = require './Profile/Default'
 # Managament facillity for different preconfigured profiles, which may
 # influence used Segmenters, segmenterRunners, and Views.
 class ProfileManager
-    # Path to profiles used to scan during name lookup
-    @profilePath = "#{__dirname}/Profile"
+    # Path to profiles used to scan during name lookup relative to the include
+    # path
+    @profilePath = "Profile"
     
-    # Path to segmetners used to scan during name lookup
-    @segmenterPath = "#{__dirname}/Segmenter"
+    # Path to segmetners used to scan during name lookup relative to the
+    # include path
+    @segmenterPath = "Segmenter"
     
-    # Path to browsers used to scan during name lookup
-    @browserPath = "#{__dirname}/Browser"
+    # Path to browsers used to scan during name lookup relative to the include
+    # path
+    @browserPath = "Browser"
 
     # Construct a new ProfileManager, which may be utilized to locate, load and
     # access all different kinds of needed profile information.
     constructor: ->
+        @includePaths = [
+            __dirname
+        ]
         @availableProfiles_ = null
         @availableSegmenters_ = null
         @availablesegmenters_ = null
+
+    # Add another include path to find an load all Profile related information
+    addIncludePath: ( path ) ->
+        @includePaths.push path
     
     # Try to locate a certain profile by its name.
     #
@@ -90,13 +100,27 @@ class ProfileManager
     readAvailableBrowsers_: ->
         @availableBrowsers_ = @readDirectoryObjects_ @constructor.browserPath
 
+    # Scan the provided relativePath in relation to all includePath and return
+    # found objects.
+    readDirectoryObjects_: ( relativePath ) ->
+        mergedObjects = {}
+        for includePath in @includePaths
+            foundObjects = @readDirectoryObjectsFromAbsolutePath_(
+                "#{includePath}/#{relativePath}"
+            )
+            for name, data of foundObjects
+                continue if mergedObjects[name] isnt undefined
+                mergedObjects[name] = data
+
+        return mergedObjects
+
     # Read the contents of a given directory and isolate all coffee/js files in
     # it. Require them and return an easily accessible name => information
     # mapping between the filenames and their contents.
-    readDirectoryObjects_: ( path ) ->
+    readDirectoryObjectsFromAbsolutePath_: ( absolutePath ) ->
         filterExpression = /^(.+?)\.(coffee|js)$/
         foundObjects = {}
-        for filename in fs.readdirSync path
+        for filename in fs.readdirSync absolutePath
             match = filterExpression.exec filename
             if match is null then continue
 
@@ -104,8 +128,8 @@ class ProfileManager
                 name: match[1]
                 type: match[2]
                 "filename": filename
-                filepath: "#{@path}/#{filename}"
-                object: require "#{path}/#{match[1]}"
+                filepath: "#{absolutePath}/#{filename}"
+                object: require "#{absolutePath}/#{match[1]}"
         return foundObjects
 
 module.exports = ProfileManager
