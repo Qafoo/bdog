@@ -1,3 +1,5 @@
+path = require "path"
+
 ProfileManager   = require "../src/ProfileManager"
 UsagePrinter     = require "../src/UsagePrinter"
 SegmentStream    = require "../src/SegmentStream"
@@ -32,7 +34,7 @@ usagePrinter = new UsagePrinter( argv, manager )
 
 # Add the secondary include path to the profileManager if given
 if argv.include? && typeof argv.include is "string"
-    manager.addIncludePath argv.include
+    manager.addIncludePath path.resolve argv.include
 
 # Print help text and exit if requested by -h|--help argument
 if argv.help?
