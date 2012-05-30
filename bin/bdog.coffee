@@ -1,3 +1,5 @@
+path = require "path"
+
 ProfileManager   = require "../src/ProfileManager"
 UsagePrinter     = require "../src/UsagePrinter"
 SegmentStream    = require "../src/SegmentStream"
@@ -21,11 +23,18 @@ argv = Optimist.options(
     b:
         alias : "browser"
         type  : "string"
+    i:
+        alias : "include"
+        type  : "string"
 ).argv
 
 # Instantiate needed processing handlers for profile and usage information
 manager      = new ProfileManager()
 usagePrinter = new UsagePrinter( argv, manager )
+
+# Add the secondary include path to the profileManager if given
+if argv.include? && typeof argv.include is "string"
+    manager.addIncludePath path.resolve argv.include
 
 # Print help text and exit if requested by -h|--help argument
 if argv.help?
@@ -37,7 +46,8 @@ if argv.help?
 if (
     ( argv.profile? && typeof argv.profile isnt "string" ) ||
     ( argv.segmenter? && typeof argv.segmenter isnt "string" ) ||
-    ( argv.browser? && typeof argv.browser isnt "string" )
+    ( argv.browser? && typeof argv.browser isnt "string" ) ||
+    ( argv.include? && typeof argv.include isnt "string" )
 )
     usagePrinter.perform( "Error: Supplied options must be followed by a string." )
     process.exit( 2 )
@@ -71,6 +81,7 @@ output = new OutputStream(
         new BrowserRunner(
             activeProfile.browser
         ),
+        manager.getIncludePaths(),
         activeProfile.configuration
     )
 )

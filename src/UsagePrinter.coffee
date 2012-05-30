@@ -41,6 +41,11 @@ class UsagePrinter
             The following browsers are available:
               
               #{@manager.getAvailableBrowsers().join( "\n      " )}
+              
+          --include|-i <path>
+            Specify a secondary include path. This path will be used in case a resource
+            (Profile/Segmenter/...) can not be found at the default position. This might be
+            useful if you want to create bdog extensions inside your own project folders
 
 
         All arguments are optional. The specified profile is used as a base on which
