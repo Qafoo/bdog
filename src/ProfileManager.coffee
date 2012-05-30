@@ -1,4 +1,5 @@
-fs = require 'fs'
+fs   = require 'fs'
+path = require 'path'
 
 DefaultProfile = require './Profile/Default'
 
@@ -122,6 +123,8 @@ class ProfileManager
     # it. Require them and return an easily accessible name => information
     # mapping between the filenames and their contents.
     readDirectoryObjectsFromAbsolutePath_: ( absolutePath ) ->
+        return {} if path.existsSync( absolutePath ) isnt true
+
         filterExpression = /^(.+?)\.(coffee|js)$/
         foundObjects = {}
         for filename in fs.readdirSync absolutePath
