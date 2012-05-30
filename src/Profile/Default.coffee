@@ -30,7 +30,7 @@ DefaultProfile =
     configuration:
         site: 'index.html'
         views: [
-            'simple'
+            'Simple'
         ]
 
 module.exports = DefaultProfile
