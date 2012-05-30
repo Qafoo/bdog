@@ -19,6 +19,10 @@ class HttpServerWriter
         # Assume localhost as server target if no special host is specified
         host = @configuration.host ?= "localhost"
 
+        # Ensure all Views specified in the profile are really available. This
+        # can ease debugging if working with multiple include paths.
+        @ensureViewAvailability_()
+
         # Initialize the express application
         @expressApp_ = express.createServer()
         @expressApp_.configure =>
@@ -65,6 +69,18 @@ class HttpServerWriter
         while @segmentsQueue_.length > 0
             segment = @segmentsQueue_.shift()
             @publish_ segment
+    
+    # Check if all configured Views are really available. Otherwise throw an
+    # Exception
+    ensureViewAvailability_: ->
+        for view in @configuration.views
+            do ( view ) =>
+                for includePath in @includePaths
+                    filepath = "#{includePath}/Writer/HttpServer/public/lib/View/#{view}"
+                    if path.existsSync "#{filepath}.coffee" ||
+                       path.existsSync "#{filepath}.js"
+                        return
+                throw new Error "Requested View '#{view}' not found."
 
     # This callback is called as soon as the webserver is running.
     #
