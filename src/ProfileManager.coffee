@@ -30,6 +30,10 @@ class ProfileManager
     # Add another include path to find an load all Profile related information
     addIncludePath: ( path ) ->
         @includePaths.push path
+
+    # Return a list of registered include paths
+    getIncludePaths: ->
+        @includePaths
     
     # Try to locate a certain profile by its name.
     #

@@ -79,6 +79,7 @@ output = new OutputStream(
         new BrowserRunner(
             activeProfile.browser
         ),
+        manager.getIncludePaths(),
         activeProfile.configuration
     )
 )
