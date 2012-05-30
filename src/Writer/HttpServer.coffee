@@ -1,3 +1,4 @@
+path    = require( "path" )
 express = require( "express" )
 faye    = require( "faye" )
 
@@ -11,7 +12,7 @@ class HttpServerWriter
     # Construct a new HttpServerWriter, which may listen on any interface/host
     #
     # If no listening host is specified localhost only is assumed
-    constructor: ( @browserRunner,  @configuration ) ->
+    constructor: ( @browserRunner,  @includePaths, @configuration ) ->
         @segmentsQueue_ = []
         @subscribedFayeClients_ = 0
 
@@ -21,8 +22,10 @@ class HttpServerWriter
         # Initialize the express application
         @expressApp_ = express.createServer()
         @expressApp_.configure =>
-            @expressApp_.use express.static "#{__dirname}/HttpServer/public"
-
+            for includePath in @includePaths
+                htdocs = "#{includePath}/Writer/HttpServer/public"
+                continue if not path.existsSync htdocs
+                @expressApp_.use express.static htdocs
         # Associate the configuration request with a callback that provides the
         # configuration data.
         @expressApp_.get '/configuration', @onConfigurationRequest_
