@@ -1,5 +1,5 @@
 chromium =
-    name: "System Default"
+    name: "chromium"
     executables:
         "linux[0-9]*":
             "chromium-browser"
