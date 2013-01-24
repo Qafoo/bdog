@@ -44,9 +44,12 @@ class HttpServerWriter
         @bayeux_.bind "unsubscribe", @onFayeClientUnsubscribed_
         @fayeClient_ = @bayeux_.getClient()
 
-        # Start the server on a random port and make sure we are informed about
-        # the port it is running on as soon as it has been started
-        @expressApp_.listen 0, host, @onServerListening_
+        # Start the server and make sure we are informed about the port it is
+        # running on as soon as it has been started
+        # If no port has been specified inside the configuration a random one
+        # will be used
+        port = if @configuration.port? then @configuration.port else 0
+        @expressApp_.listen port, host, @onServerListening_
 
     # Called by the OutputStream as soon as a new segment gets available.
     #
