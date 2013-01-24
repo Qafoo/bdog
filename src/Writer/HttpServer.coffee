@@ -1,4 +1,4 @@
-path    = require( "path" )
+fs      = require( "fs" )
 express = require( "express" )
 faye    = require( "faye" )
 
@@ -28,7 +28,7 @@ class HttpServerWriter
         @expressApp_.configure =>
             for includePath in @includePaths
                 htdocs = "#{includePath}/Writer/HttpServer/public"
-                continue if not path.existsSync htdocs
+                continue if not fs.existsSync htdocs
                 @expressApp_.use express.static htdocs
         # Associate the configuration request with a callback that provides the
         # configuration data.
@@ -77,8 +77,8 @@ class HttpServerWriter
             do ( view ) =>
                 for includePath in @includePaths
                     filepath = "#{includePath}/Writer/HttpServer/public/lib/View/#{view}"
-                    if path.existsSync "#{filepath}.coffee" ||
-                       path.existsSync "#{filepath}.js"
+                    if fs.existsSync "#{filepath}.coffee" ||
+                       fs.existsSync "#{filepath}.js"
                         return
                 throw new Error "Requested View '#{view}' not found."
 
