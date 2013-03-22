@@ -25,14 +25,20 @@ class HttpServerWriter
 
         # Initialize the express application
         @expressApp_ = express.createServer()
+        
+        # Associate the configuration request with a callback that provides the
+        # configuration data.
+        @expressApp_.get '/configuration', @onConfigurationRequest_
+
+        # Redirect to the configured base site if "/" is requested
+        @expressApp_.get '/', @onIndexRequest_
+
+        # Configure serving of static files
         @expressApp_.configure =>
             for includePath in @includePaths
                 htdocs = "#{includePath}/Writer/HttpServer/public"
                 continue if not fs.existsSync htdocs
                 @expressApp_.use express.static htdocs
-        # Associate the configuration request with a callback that provides the
-        # configuration data.
-        @expressApp_.get '/configuration', @onConfigurationRequest_
 
         # Attach a faye pubsub interface to our express server
         @bayeux_ = new faye.NodeAdapter({
@@ -117,5 +123,8 @@ class HttpServerWriter
     onConfigurationRequest_: ( request, response ) =>
         response.contentType "application/json"
         response.send @configuration
+
+    onIndexRequest_: ( request, response ) =>
+        response.redirect "/#{@configuration.site}", 302
 
 module.exports = HttpServerWriter
