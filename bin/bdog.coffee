@@ -86,6 +86,4 @@ output = new OutputStream(
     )
 )
 
-process.stdin.pipe stream
-stream.pipe output
-process.stdin.resume()
+process.stdin.pipe(stream).pipe(output)
