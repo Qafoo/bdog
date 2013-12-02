@@ -23,6 +23,9 @@ class HttpServerWriter
         # can ease debugging if working with multiple include paths.
         @ensureViewAvailability_()
 
+        # Provide storage space for the created net.Server
+        @server = null
+
         # Initialize the express application
         @expressApp_ = express.createServer()
         
@@ -55,7 +58,7 @@ class HttpServerWriter
         # If no port has been specified inside the configuration a random one
         # will be used
         port = if @configuration.port? then @configuration.port else 0
-        @expressApp_.listen port, host, @onServerListening_
+        @server = @expressApp_.listen port, host, @onServerListening_
 
     # Called by the OutputStream as soon as a new segment gets available.
     #
@@ -96,7 +99,7 @@ class HttpServerWriter
     # After the server is running the browser needs to be started loading up
     # the correct page.
     onServerListening_: =>
-        address = @expressApp_.address()
+        address = @server.address()
         textualAddress = "http://#{address.address}:#{address.port}"
         process.stderr.write "Server running at #{textualAddress}/\n"
         process.stderr.write "Press <CTRL-C> to quit.\n"
