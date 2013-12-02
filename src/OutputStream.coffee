@@ -9,9 +9,9 @@ class OutputStream extends stream.Writable
     # Write a segment to the stream
     #
     # Encoding is not used, the chunk is supposed to always be a Buffer
-    # Done is not used as we do not need to provide feedback about writing
     _write: (chunk, encoding, done) ->
       @writer.write chunk
+      done()
 
 
 module.exports = OutputStream

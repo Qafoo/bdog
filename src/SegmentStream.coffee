@@ -30,13 +30,15 @@ class SegmentStream extends stream.Duplex
     _write: (chunk, encoding, done) ->
       @appendToSegmentBuffer_ chunk
       @applySegmenter_()
+      @processQueuedSegements_()
+      done()
 
     # Apply the associated segmenter against the currently stored buffer and
     # finalize possibly available segemnts
     applySegmenter_: ->
         croppedBuffer = @segmentBuffer_.slice 0, @segmentLength_
         ranges = @segmenter.segment croppedBuffer
-        
+
         # If nothing is to be done simply return and wait for more data
         return if ranges?.length == 0
         @finalizeSegments_ ranges
@@ -103,7 +105,7 @@ class SegmentStream extends stream.Duplex
             @segmentBuffer_ = @segmentBuffer_.slice end + 1
             @segmentLength_ = leftOverLength
 
-    _read: () ->
+    processQueuedSegements_: () ->
       return if @segmentsQueue_.length == 0
       # Push all currently available segments into the read queue, until
       # there are no more segments, or the queue is full
@@ -112,6 +114,8 @@ class SegmentStream extends stream.Duplex
         break if !segment
         retVal = @push(segment)
         break if !retVal
-      return true
+
+    _read: () ->
+      @processQueuedSegements_()
 
 module.exports = SegmentStream
