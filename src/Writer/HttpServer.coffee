@@ -1,4 +1,5 @@
 fs      = require( "fs" )
+http    = require( "http" )
 express = require( "express" )
 faye    = require( "faye" )
 
@@ -27,7 +28,7 @@ class HttpServerWriter
         @server = null
 
         # Initialize the express application
-        @expressApp_ = express.createServer()
+        @expressApp_ = express()
         
         # Associate the configuration request with a callback that provides the
         # configuration data.
@@ -43,22 +44,22 @@ class HttpServerWriter
                 continue if not fs.existsSync htdocs
                 @expressApp_.use express.static htdocs
 
-        # Attach a faye pubsub interface to our express server
-        @bayeux_ = new faye.NodeAdapter({
-            mount: "/faye"
-            timeout: 45
-        })
-        @bayeux_.attach @expressApp_
-        @bayeux_.bind "subscribe", @onFayeClientSubscribed_
-        @bayeux_.bind "unsubscribe", @onFayeClientUnsubscribed_
-        @fayeClient_ = @bayeux_.getClient()
-
         # Start the server and make sure we are informed about the port it is
         # running on as soon as it has been started
         # If no port has been specified inside the configuration a random one
         # will be used
         port = if @configuration.port? then @configuration.port else 0
-        @server = @expressApp_.listen port, host, @onServerListening_
+        @server = http.createServer(@expressApp_).listen port, host, @onServerListening_
+
+        # Attach a faye pubsub interface to our express server
+        @bayeux_ = new faye.NodeAdapter({
+          mount: "/faye"
+          timeout: 45
+        })
+        @bayeux_.attach @server
+        @bayeux_.bind "subscribe", @onFayeClientSubscribed_
+        @bayeux_.bind "unsubscribe", @onFayeClientUnsubscribed_
+        @fayeClient_ = @bayeux_.getClient()
 
     # Called by the OutputStream as soon as a new segment gets available.
     #
