@@ -1,19 +1,17 @@
 {
   "author": "Jakob Westhoff <jakob@qafoo.com> (http://westhoffswelt.de)",
   "name": "bdog",
-  "description": "A better browser cat (bcat) - Pipe content directly to view inside your browser",
-  "version": "0.0.1",
+  "description": "A better browser cat (bcat) - Pipe content directly to your browser",
+  "version": "0.1.0",
   "private": true,
   "repository": {
-    "url": ""
+    "url": "https://github.com/Qafoo/bdog.git"
   },
   "dependencies": {
     "coffee-script": "~1.6.3",
     "express": "~3.4.6",
     "faye": "~1.0.0",
-    "requirejs": "~2.1.9",
-    "optimist": "~0.6.0",
-    "q": "~0.9.7"
+    "optimist": "~0.6.0"
   },
   "devDependencies": {},
   "optionalDependencies": {},
