@@ -1,3 +1,0 @@
-[submodule "vendor/require-cs"]
-	path = vendor/require-cs
-	url = https://github.com/jrburke/require-cs.git
