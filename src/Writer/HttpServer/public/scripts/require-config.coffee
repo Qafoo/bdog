@@ -6,7 +6,7 @@ require.config(
     'lib': '../lib'
 
     # Libraries needed by main application
-    'jquery': 'vendor/jquery/jquery.min'
+    'jquery': 'vendor/jqueryify/index'
     'faye': '../faye'
     'q': 'vendor/q/q'
 

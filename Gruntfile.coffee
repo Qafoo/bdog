@@ -1,11 +1,6 @@
 module.exports = (grunt) ->
   grunt.initConfig(
     exec:
-      'npm-install':
-        command: "npm install"
-        stderr: true
-        stdout: true
-
       'httpserver-bower-install':
         'command': 'bower install'
         'cwd': 'src/Writer/HttpServer'
@@ -37,6 +32,17 @@ module.exports = (grunt) ->
           ]
           dest: "build/src/Writer/HttpServer/public/"
         ]
+      'httpserverwriter-vendor':
+        files: [
+          expand: true
+          cwd: "node_modules"
+          src: [
+            "jqueryify/index.js"
+            "q/q.js"
+            "requirejs/require.js"
+          ]
+          dest: "build/src/Writer/HttpServer/public/scripts/vendor/"
+        ]
   );
 
   grunt.loadNpmTasks "grunt-exec"
@@ -44,8 +50,8 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-contrib-copy"
 
 
-  grunt.registerTask 'setup', ["exec:npm-install", "exec:httpserver-bower-install"]
+  grunt.registerTask 'setup', ["exec:httpserver-bower-install"]
 
-  grunt.registerTask 'build', ["coffee", "copy:httpserverwriter-public"]
+  grunt.registerTask 'build', ["coffee", "copy:httpserverwriter-public", "copy:httpserverwriter-vendor"]
 
   grunt.registerTask 'default', ["setup", "build"]
