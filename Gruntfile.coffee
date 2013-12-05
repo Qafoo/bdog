@@ -38,9 +38,10 @@ module.exports = (grunt) ->
           expand: true
           cwd: "<%= config.paths.node_modules %>"
           src: [
-            "jqueryify/index.js"
+            "bower-jquery/bower_components/jquery/jquery.js"
             "q/q.js"
             "requirejs/require.js"
+            "ansi-to-html/lib/ansi_to_html.js"
           ]
           dest: "<%= config.paths.build %>/<%= config.paths.src %>/<%= config.paths.public %>/scripts/vendor"
         ]
@@ -51,6 +52,12 @@ module.exports = (grunt) ->
           banner: "#!/usr/bin/env node\n"
         src: "<%= config.paths.build %>/<%= config.paths.bin %>/bdog.js"
         dest: "<%= config.paths.build %>/<%= config.paths.bin %>/bdog.js"
+      'ansi-to-html-amd-wrapper':
+        options:
+          banner: 'define(["require", "exports", "module"], function(require, exports, module) {\n',
+          footer: '\n});'
+        src: "<%= config.paths.build %>/<%= config.paths.src %>/<%= config.paths.public %>/scripts/vendor/ansi-to-html/lib/ansi_to_html.js"
+        dest: "<%= config.paths.build %>/<%= config.paths.src %>/<%= config.paths.public %>/scripts/vendor/ansi-to-html/lib/ansi_to_html.js"
 
     watch:
       build:
@@ -69,6 +76,12 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-contrib-concat"
   grunt.loadNpmTasks "grunt-contrib-watch"
 
-  grunt.registerTask 'build', ["coffee", "concat:bdog-bin-shebang", "copy:httpserverwriter-public", "copy:httpserverwriter-vendor"]
+  grunt.registerTask 'build', [
+    "coffee",
+    "concat:bdog-bin-shebang",
+    "copy:httpserverwriter-public",
+    "copy:httpserverwriter-vendor",
+    "concat:ansi-to-html-amd-wrapper"
+  ]
 
   grunt.registerTask 'default', ["build"]

@@ -10,7 +10,7 @@
     "cli",
     "cat"
   ],
-  "version": "0.1.1",
+  "version": "0.1.2",
   "repository": {
     "url": "https://github.com/Qafoo/bdog.git"
   },
@@ -20,7 +20,8 @@
     "optimist": "~0.6.0",
     "q": "~0.9.7",
     "requirejs": "~2.1.9",
-    "jqueryify": "~2.0.3"
+    "ansi-to-html": "~0.1.1",
+    "bower-jquery": "~2.0.2"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
