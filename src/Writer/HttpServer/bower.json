@@ -18,7 +18,6 @@
   ],
   "dependencies": {
     "requirejs": "git://github.com/jrburke/requirejs.git#~2.1.9",
-    "require-cs": "~0.4.4",
     "jquery": "~2.0.3",
     "q": "~0.9.7"
   }
