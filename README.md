@@ -33,7 +33,6 @@ The above command will install the `bdog` command globally for your current syst
 
 An alternative to using `npm` for installing is to simply clone the git repository. After that a certain amount of preparation needs to be done in order to install all needed dependencies:
 
-	npm install --dev
-	grunt setup
-	
-After those two commands have been issued you should be able to use `bin/bdog` as usual.
+	npm install
+
+The `npm install` task should automatically run `grunt` to create a build of the software inside the `dist` folder. Every time you change the code `grunt` is needed to be run in order to compile the coffee-script code into javascript code
