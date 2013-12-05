@@ -1,57 +1,61 @@
 module.exports = (grunt) ->
   grunt.initConfig(
-    exec:
-      'httpserver-bower-install':
-        'command': 'bower install'
-        'cwd': 'src/Writer/HttpServer'
-        'stderr': true
-        'stdout': true
-
+    config:
+      paths:
+        "build": "dist"
+        "src": "src"
+        "bin": "bin"
+        "public": "Writer/HttpServer/public"
+        "node_modules": "node_modules"
     coffee:
       src:
         expand: true
-        cwd: "src/"
-        src: ["**/*.coffee", "!Writer/HttpServer/public/scripts/vendor/**/*"]
-        dest: "build/src/"
+        cwd: "<%= config.paths.src %>/"
+        src: ["**/*.coffee", "!<%= config.paths.public %>/scripts/vendor/**/*"]
+        dest: "<%= config.paths.build %>/<%= config.paths.src %>/"
         ext: ".js"
       bin:
         expand: true
-        cwd: "bin/"
+        cwd: "<%= config.paths.bin %>"
         src: ["**/*.coffee"]
-        dest: "build/bin/"
+        dest: "<%= config.paths.build %>/<%= config.paths.bin %>/"
         ext: ".js"
 
     copy:
       'httpserverwriter-public':
         files: [
           expand: true
-          cwd: "src/Writer/HttpServer/public/"
+          cwd: "src/<%= config.paths.public %>"
           src: [
             "scripts/vendor/**/*"
             "index.html"
           ]
-          dest: "build/src/Writer/HttpServer/public/"
+          dest: "<%= config.paths.build %>/<%= config.paths.src %>/<%= config.paths.public %>/"
         ]
       'httpserverwriter-vendor':
         files: [
           expand: true
-          cwd: "node_modules"
+          cwd: "<%= config.paths.node_modules %>"
           src: [
             "jqueryify/index.js"
             "q/q.js"
             "requirejs/require.js"
           ]
-          dest: "build/src/Writer/HttpServer/public/scripts/vendor/"
+          dest: "<%= config.paths.build %>/<%= config.paths.src %>/<%= config.paths.public %>/scripts/vendor"
         ]
+
+    concat:
+      'bdog-bin-shebang':
+        options:
+          banner: "#!/usr/bin/env node\n"
+        src: "<%= config.paths.build %>/<%= config.paths.bin %>/bdog.js"
+        dest: "<%= config.paths.build %>/<%= config.paths.bin %>/bdog.js"
   );
 
-  grunt.loadNpmTasks "grunt-exec"
   grunt.loadNpmTasks "grunt-contrib-coffee"
   grunt.loadNpmTasks "grunt-contrib-copy"
+  grunt.loadNpmTasks "grunt-contrib-concat"
 
+  grunt.registerTask 'build', ["coffee", "concat:bdog-bin-shebang", "copy:httpserverwriter-public", "copy:httpserverwriter-vendor"]
 
-  grunt.registerTask 'setup', ["exec:httpserver-bower-install"]
-
-  grunt.registerTask 'build', ["coffee", "copy:httpserverwriter-public", "copy:httpserverwriter-vendor"]
-
-  grunt.registerTask 'default', ["setup", "build"]
+  grunt.registerTask 'default', ["build"]

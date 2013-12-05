@@ -17,9 +17,9 @@
   },
   "devDependencies": {
     "grunt": "~0.4.2",
-    "grunt-exec": "~0.4.2",
     "grunt-contrib-coffee": "0.7.0",
-    "grunt-contrib-copy": "~0.4.1"
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-concat": "~0.3.0"
   },
   "optionalDependencies": {},
   "engines": {
@@ -29,6 +29,10 @@
     "prepublish": "grunt"
   },
   "bin": {
-    "bdog": "build/bin/bdog.js"
-  }
+    "bdog": "dist/bin/bdog.js"
+  },
+  "files": [
+    "dist/",
+    "README.md"
+  ]
 }
