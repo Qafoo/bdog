@@ -7,6 +7,7 @@ module.exports = (grunt) ->
         "bin": "bin"
         "public": "Writer/HttpServer/public"
         "node_modules": "node_modules"
+
     coffee:
       src:
         expand: true
@@ -50,11 +51,23 @@ module.exports = (grunt) ->
           banner: "#!/usr/bin/env node\n"
         src: "<%= config.paths.build %>/<%= config.paths.bin %>/bdog.js"
         dest: "<%= config.paths.build %>/<%= config.paths.bin %>/bdog.js"
+
+    watch:
+      build:
+        files: [
+          "<%= config.paths.src %>/**/*.coffee",
+          "<%= config.paths.src %>/<%= config.paths.public %>**/*",
+          "!<%= config.paths.src %>/<%= config.paths.public %>/scripts/vendor/**/*"
+        ]
+        options:
+          spawn: false
+        tasks: ["build"]
   );
 
   grunt.loadNpmTasks "grunt-contrib-coffee"
   grunt.loadNpmTasks "grunt-contrib-copy"
   grunt.loadNpmTasks "grunt-contrib-concat"
+  grunt.loadNpmTasks "grunt-contrib-watch"
 
   grunt.registerTask 'build', ["coffee", "concat:bdog-bin-shebang", "copy:httpserverwriter-public", "copy:httpserverwriter-vendor"]
 
