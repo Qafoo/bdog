@@ -89,9 +89,9 @@ class HttpServerWriter
         for view in @configuration.views
             do ( view ) =>
                 for includePath in @includePaths
+                    console.log(includePath)
                     filepath = "#{includePath}/Writer/HttpServer/public/lib/View/#{view}"
-                    if fs.existsSync "#{filepath}.coffee" ||
-                       fs.existsSync "#{filepath}.js"
+                    if fs.existsSync "#{filepath}.js"
                         return
                 throw new Error "Requested View '#{view}' not found."
 

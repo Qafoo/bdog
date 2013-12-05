@@ -15,7 +15,7 @@ define(
       # Load a view by name returning a promise, which will be resolved with
       # the view object once it is ready
       loadView: (viewName) ->
-        @requireWithPromise_ "cs!lib/View/#{viewName}"
+        @requireWithPromise_ "lib/View/#{viewName}"
 
       # Use requirejs to load a certain module, but instead of providing
       # a callback after it has been loaded return a promise, which is

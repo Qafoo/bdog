@@ -1,3 +1,0 @@
-#!/bin/sh
-binDir="$(dirname "$(readlink -f "$0")")"
-env BDOG_BASEPATH="${binDir}/../src" "$binDir/../node_modules/.bin/coffee" "$binDir/bdog.coffee" "$@"

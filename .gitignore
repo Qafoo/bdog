@@ -1,4 +1,5 @@
-node_modules/
-Gruntfile.js
+/build/
+/node_modules/
+/.idea/
+/Gruntfile.js
 *.js
-.idea/

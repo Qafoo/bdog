@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 path = require "path"
 
 ProfileManager   = require "../src/ProfileManager"

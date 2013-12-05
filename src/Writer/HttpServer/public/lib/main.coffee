@@ -1,5 +1,5 @@
 define(
-  ["jquery", "cs!lib/SegmentReader", "cs!lib/ViewManager"],
+  ["jquery", "lib/SegmentReader", "lib/ViewManager"],
   (jQuery, SegmentReader, ViewManager) ->
     # Retrieve the configuration from the server to know which Views to
     # initialize

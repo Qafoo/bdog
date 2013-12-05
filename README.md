@@ -18,3 +18,22 @@ Therefore it can be used as a drop in replacement in most situations currently.
 The application architecture allows for easy integration of advanced views and
 all the graphical stuff I would like in the future. Currently none of those are
 implemented. They will follow as soon as I got some more spare time.
+
+## Installation
+
+### Using npm
+
+You may install a running version of **bdog** using *npm*:
+
+	npm install bdog -g
+	
+The above command will install the `bdog` command globally for your current system.
+
+### Cloning the repository
+
+An alternative to using `npm` for installing is to simply clone the git repository. After that a certain amount of preparation needs to be done in order to install all needed dependencies:
+
+	npm install --dev
+	grunt setup
+	
+After those two commands have been issued you should be able to use `bin/bdog` as usual.
