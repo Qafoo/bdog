@@ -3,7 +3,7 @@
   "name": "bdog",
   "description": "A better browser cat (bcat) - Pipe content directly to your browser",
   "tags": ["browser", "stdin", "pipe", "pager", "cli", "cat"],
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": {
     "url": "https://github.com/Qafoo/bdog.git"
   },
