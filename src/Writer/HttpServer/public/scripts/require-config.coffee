@@ -10,6 +10,7 @@ require.config(
     'faye': '../faye'
     'q': 'vendor/q/q'
     'ansi-to-html': 'vendor/ansi-to-html/lib/ansi_to_html'
+    'prettyPrint': 'vendor/prettyprint.js/prettyprint'
 
   # Define shims for libraries, which are not fully AMD compatible
   shim:
@@ -18,4 +19,7 @@ require.config(
 
     'faye':
       exports: "Faye"
+
+    'prettyPrint':
+      exports: "prettyPrint"
 );
