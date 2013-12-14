@@ -1,0 +1,123 @@
+/*dl {
+    border: 1px solid orange;
+}
+
+dt {
+    border: 1px solid green;
+}
+
+dd {
+    border: 1px solid blue;
+}
+*/
+
+
+/* Document */
+.document > dd {
+    margin: 0;
+}
+
+
+/* Array */
+.array:before {
+    content: "[";
+}
+
+.array > dd:not(:last-child):after {
+    content: ",";
+}
+
+
+.array > dd {
+    padding-left: 20px;
+    margin-left: 0;
+}
+
+dl {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.array:after {
+    content: "]";
+}
+
+
+/* Object */
+.object:before {
+    content: "{";
+}
+
+.object:after {
+    content: "}";
+}
+
+.object > dd {
+    padding-left: 20px;
+    margin-left: 0;
+}
+
+.object > dd {
+    border-left: 1px dotted grey;
+    margin-left: 3px;
+}
+
+.key-value {
+    display: table-row;
+}
+
+.key-value > dt {
+    display: table-cell;
+    padding-right: 7px;
+}
+
+.key-value > dd {
+    display: table-cell;
+}
+
+.key-value > dt:after {
+    content: ":"
+}
+
+/* String */
+.string:before {
+    content: '"'
+}
+
+.string > dd {
+    display: inline-block;
+    margin: 0;
+}
+
+.string:after {
+    content: '"'
+}
+
+/* Number */
+.number > dd {
+    display: inline-block;
+    margin: 0;
+}
+
+/* Boolean */
+.boolean > dd {
+    display: inline-block;
+    margin: 0;
+}
+
+/* undefined */
+.undefined > dd {
+    display: inline-block;
+    margin: 0;
+}
+
+/* null */
+.null > dd {
+    display: inline-block;
+    margin: 0;
+}
+
+
+
+
+
