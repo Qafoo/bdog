@@ -27,7 +27,7 @@ DefaultProfile =
     configuration:
         site: 'index.html'
         views: [
-          {type: "Json"}
+          {type: "Json", visitor: "prettyprint.js", expanded: false}
         ]
 
 module.exports = DefaultProfile
