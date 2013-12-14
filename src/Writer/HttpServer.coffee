@@ -87,13 +87,12 @@ class HttpServerWriter
     # Exception
     ensureViewAvailability_: ->
         for view in @configuration.views
-            do ( view ) =>
-                for includePath in @includePaths
-                    console.log(includePath)
-                    filepath = "#{includePath}/Writer/HttpServer/public/lib/View/#{view}"
-                    if fs.existsSync "#{filepath}.js"
-                        return
-                throw new Error "Requested View '#{view}' not found."
+            if view.type?
+                view = view.type
+            for includePath in @includePaths
+                filepath = "#{includePath}/Writer/HttpServer/public/lib/View/#{view}"
+                if !fs.existsSync "#{filepath}.js"
+                  throw new Error "Requested View '#{view}' not found."
 
     # This callback is called as soon as the webserver is running.
     #

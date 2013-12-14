@@ -11,8 +11,8 @@ define(
       manager.loadViews(
         configuration.views
       ).then (views) ->
-        instantiatedViews = for View in views
-          new View(body)
+        instantiatedViews = for view in views
+          new view.class(body, view.configuration)
 
         # Initialize the streaming by creating a segment reader with all the
         # configured views
