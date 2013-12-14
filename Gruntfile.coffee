@@ -41,7 +41,7 @@ module.exports = (grunt) ->
           ]
           dest: "<%= config.paths.build %>/<%= config.paths.src %>/<%= config.paths.public %>/"
         ]
-      'httpserverwriter-vendor':
+      'httpserverwriter-vendor-npm':
         files: [
           expand: true
           cwd: "<%= config.paths.node_modules %>"
@@ -50,6 +50,15 @@ module.exports = (grunt) ->
             "q/q.js"
             "requirejs/require.js"
             "ansi-to-html/lib/ansi_to_html.js"
+          ]
+          dest: "<%= config.paths.build %>/<%= config.paths.src %>/<%= config.paths.public %>/scripts/vendor"
+        ]
+      'httpserverwriter-vendor':
+        files: [
+          expand: true
+          cwd: "<%= config.paths.src %>/<%= config.paths.public %>/scripts/vendor"
+          src: [
+            "prettyprint.js/prettyprint.js"
           ]
           dest: "<%= config.paths.build %>/<%= config.paths.src %>/<%= config.paths.public %>/scripts/vendor"
         ]
@@ -93,6 +102,7 @@ module.exports = (grunt) ->
     "concat:bdog-bin-shebang",
     "copy:httpserverwriter-public",
     "copy:httpserverwriter-vendor",
+    "copy:httpserverwriter-vendor-npm",
     "concat:ansi-to-html-amd-wrapper"
   ]
 
