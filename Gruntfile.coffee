@@ -22,13 +22,20 @@ module.exports = (grunt) ->
         dest: "<%= config.paths.build %>/<%= config.paths.bin %>/"
         ext: ".js"
 
+    sass:
+      src:
+        expand: true
+        cwd: "<%= config.paths.src %>/"
+        src: ["**/*.scss", "**/_*.scss", "!<%= config.paths.public %>/scripts/vendor/**/*"]
+        dest: "<%= config.paths.build %>/<%= config.paths.src %>/"
+        ext: ".css"
+
     copy:
       'httpserverwriter-public':
         files: [
           expand: true
           cwd: "src/<%= config.paths.public %>"
           src: [
-            "css/**/*"
             "scripts/vendor/**/*"
             "index.html"
           ]
@@ -75,12 +82,14 @@ module.exports = (grunt) ->
   );
 
   grunt.loadNpmTasks "grunt-contrib-coffee"
+  grunt.loadNpmTasks "grunt-contrib-sass"
   grunt.loadNpmTasks "grunt-contrib-copy"
   grunt.loadNpmTasks "grunt-contrib-concat"
   grunt.loadNpmTasks "grunt-contrib-watch"
 
   grunt.registerTask 'build', [
     "coffee",
+    "sass",
     "concat:bdog-bin-shebang",
     "copy:httpserverwriter-public",
     "copy:httpserverwriter-vendor",
