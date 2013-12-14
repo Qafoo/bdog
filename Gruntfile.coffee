@@ -28,6 +28,7 @@ module.exports = (grunt) ->
           expand: true
           cwd: "src/<%= config.paths.public %>"
           src: [
+            "css/**/*"
             "scripts/vendor/**/*"
             "index.html"
           ]
@@ -60,10 +61,12 @@ module.exports = (grunt) ->
         dest: "<%= config.paths.build %>/<%= config.paths.src %>/<%= config.paths.public %>/scripts/vendor/ansi-to-html/lib/ansi_to_html.js"
 
     watch:
+      options:
+        atBegin: true
       build:
         files: [
           "<%= config.paths.src %>/**/*.coffee",
-          "<%= config.paths.src %>/<%= config.paths.public %>**/*",
+          "<%= config.paths.src %>/<%= config.paths.public %>/**/*",
           "!<%= config.paths.src %>/<%= config.paths.public %>/scripts/vendor/**/*"
         ]
         options:
