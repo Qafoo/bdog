@@ -4,7 +4,8 @@ define(
     # View interface, which is capable of displaying JSON in a formatted and
     # interactive way
     class JsonView
-      constructor: (@container) ->
+      constructor: (@container, @configuration) ->
+        console.log(@configuration)
         # Load the proper css ;)
         jQuery("<link />",
           href: "css/Views/Json.css"
@@ -18,15 +19,15 @@ define(
       handleSegment: (segment) ->
         document = JSON.parse(segment.data);
         @container.append(
-          @visitDocument_ document
+          item = @visitDocument_ document
         )
 
-        @scrollToEndOfContainer_()
+        @scrollToObject_(item)
 
       # Scroll to the end of the display container
       # Essentially to where the new output has been added to
-      scrollToEndOfContainer_: () ->
-        $(document).scrollTop @container.position().top + @container.height()
+      scrollToObject_: (object) ->
+        $(document).scrollTop object.position().top
 
       # Visit a JSON document root
       visitDocument_: (document) ->
@@ -69,6 +70,10 @@ define(
         jQuery("<dl />",
           class: "string"
         ).append(
+          jQuery("<dt />",
+            text: "String (#{document.length})"
+          )
+        ).append(
           jQuery("<dd />",
             text: document
           )
@@ -79,6 +84,10 @@ define(
         console.log("Number: ", document)
         jQuery("<dl />",
           class: "number"
+        ).append(
+          jQuery("<dt />",
+            text: "Number"
+          )
         ).append(
           jQuery("<dd />",
             text: document.toString()
@@ -91,6 +100,10 @@ define(
         jQuery("<dl />",
           class: "boolean"
         ).append(
+          jQuery("<dt />",
+            text: "Boolean"
+          )
+        ).append(
           jQuery("<dd />",
             text: document.toString()
           )
@@ -101,6 +114,10 @@ define(
         console.log("Undefined: ", document)
         jQuery("<dl />",
           class: "undefined"
+        ).append(
+          jQuery("<dt />",
+            text: "undefined"
+          )
         ).append(
           jQuery("<dd />",
             text: "undefined"
@@ -113,6 +130,10 @@ define(
         jQuery("<dl />",
           class: "null"
         ).append(
+          jQuery("<dt />",
+            text: "null"
+          )
+        ).append(
           jQuery("<dd />",
             text: "null"
           )
@@ -123,6 +144,10 @@ define(
         console.log("Array: ", document)
         jQuery("<dl />",
           class: "array"
+        ).append(
+          jQuery("<dt />",
+            text: "Array (#{document.length})"
+          )
         ).append(document.map (item) =>
           jQuery("<dd />").append(
             @visitDocumentType_(item)
@@ -134,6 +159,10 @@ define(
         console.log("Object: ", document)
         objectContainer = jQuery("<dl />",
           class: "object"
+        ).append(
+          jQuery("<dt />",
+            text: "Object (#{Object.keys(document).length})"
+          )
         )
 
         for key, value of document
