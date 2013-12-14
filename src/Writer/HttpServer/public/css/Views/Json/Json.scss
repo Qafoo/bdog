@@ -1,0 +1,93 @@
+@import "gradient";
+@import "solarized";
+
+$array: $blue;
+$object: $yellow;
+$titleBackground: $base2;
+
+@mixin borderless-type() {
+  display: table;
+  width: 100%;
+  background: $base2;
+  border-spacing: 3px;
+}
+
+@mixin type($color) {
+  @include borderless-type;
+  border: 1px solid $color;
+}
+
+@mixin title($color) {
+  @include title-gradient($color);
+  display: table-caption;
+  color: $titleBackground;
+  padding: 5px;
+}
+
+@mixin item($color) {
+  background: $base3;
+  margin: 3px;
+}
+
+body {
+  background: $base3;
+  color: $base0;
+  font-family: HelveticaNeue, arial, helvetica, clean, sans-serif;
+}
+
+dl {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+dl.document {
+  > dd {
+    margin-left: 0;
+  }
+}
+
+dl.array {
+  @include type($array);
+
+  > dt {
+    @include title($array);
+  }
+
+  > dd {
+    @include item($array);
+  }
+}
+
+dl.object {
+  @include type($object);
+
+  > dt {
+    @include title($object);
+  }
+
+  > dd {
+    @include item($object);
+  }
+}
+
+dl.key-value {
+  @include borderless-type;
+  display: table-row;
+  border-spacing: 3px;
+
+  > dt {
+    @include item($object);
+    display: table-cell;
+    background: $base2;
+    vertical-align: top;
+    padding: 3px;
+    color: $orange;
+  }
+
+  > dd {
+    width: 100%;
+    display: table-cell;
+    padding: 3px;
+    @include item($object);
+  }
+}

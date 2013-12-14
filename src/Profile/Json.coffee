@@ -27,7 +27,7 @@ DefaultProfile =
     configuration:
         site: 'index.html'
         views: [
-            'Json'
+          {type: "Json"}
         ]
 
 module.exports = DefaultProfile
