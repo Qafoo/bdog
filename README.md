@@ -40,7 +40,7 @@ code
 `bdog` can be used mostly like you would use `cat` (or `dog`). Simply pipe any
 content to the command:
 
-    echo "Yeah!! Piped to Browser!" | bdog
+    echo 'Yeah!! Piped to Browser!' | bdog
 
 After issuing this command a browser will automatically opened and the data
 will be streamed to it.
